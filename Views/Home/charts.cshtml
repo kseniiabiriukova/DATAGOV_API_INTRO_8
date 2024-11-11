@@ -1,0 +1,242 @@
+﻿@model DATAGOV_API_INTRO_8.Models.CitiesWeather
+@using System.Linq
+<style>
+    .chart-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .chart-container {
+        margin-bottom: 30px;
+        text-align: center;
+        height: 400px;
+    }
+
+    /* Styling for the links */
+    div > a {
+        margin: 0 10px;
+        color: #007bff;
+        text-decoration: none;
+    }
+
+        div > a:hover {
+            text-decoration: underline;
+        }
+
+    @@media (max-width: 768px) {
+        .chart-section {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<h2>Weather Charts</h2>
+
+<div>
+    <a href="#temperature-chart">Temperature Comparison</a> |
+    <a href="#wind-speed-chart">Wind Speed Across Cities</a> |
+    <a href="#humidity-chart">Humidity Distribution</a> |
+    <a href="#feels-like-chart">Feels Like</a> |
+    <a href="#heatindex-chart">Heat Index</a> |
+    <a href="#uv-chart">UV Index</a>
+</div>
+
+<div style="height: 50px;"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="chart-section">
+    <!-- Your Original Charts -->
+    <div id="temperature-chart" class="chart-container">
+        <h3>Temperature Comparison</h3>
+        <canvas id="bar-chart"></canvas>
+    </div>
+
+    <div id="wind-speed-chart" class="chart-container">
+        <h3>Wind Speed Across Cities</h3>
+        <canvas id="line-chart"></canvas>
+    </div>
+
+    <div id="humidity-chart" class="chart-container">
+        <h3>Humidity Distribution</h3>
+        <canvas id="pie-chart"></canvas>
+    </div>
+
+    <!-- New Additional Charts -->
+    <div id="feels-like-chart" class="chart-container">
+        <h3>Actual vs Feels Like Temperature</h3>
+        <canvas id="feels-like-canvas"></canvas>
+    </div>
+
+    <div id="heatindex-chart" class="chart-container">
+        <h3>Heat Index</h3>
+        <canvas id="heatindex-canvas"></canvas>
+    </div>
+
+    <div id="uv-chart" class="chart-container">
+        <h3>UV Index</h3>
+        <canvas id="uv-canvas"></canvas>
+    </div>
+</div>
+
+<script>
+    const cities = @Html.Raw(Json.Serialize(Model.data.Select(m => m.location.name)));
+    const temperatures = @Html.Raw(Json.Serialize(Model.data.Select(m => m.current.temp_c)));
+    const humidities = @Html.Raw(Json.Serialize(Model.data.Select(m => m.current.humidity)));
+    const windSpeeds = @Html.Raw(Json.Serialize(Model.data.Select(m => m.current.wind_mph)));
+    const feelsLike = @Html.Raw(Json.Serialize(Model.data.Select(m => m.current.feelslike_c)));
+    const heatIndex = @Html.Raw(Json.Serialize(Model.data.Select(m => m.current.heatindex_c)));
+    const uvIndex = @Html.Raw(Json.Serialize(Model.data.Select(m => m.current.uv)));
+
+    // Your Original Charts - Kept Exactly the Same
+    new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: cities,
+            datasets: [{
+                label: "Temperature (°C)",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: temperatures
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Current Temperature in Cities (°C)'
+            },
+            legend: { display: false },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+            labels: cities,
+            datasets: [{
+                label: "Wind Speed (mph)",
+                borderColor: "#3e95cd",
+                fill: false,
+                data: windSpeeds
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Wind Speed Across Cities (mph)'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    new Chart(document.getElementById("pie-chart"), {
+        type: 'pie',
+        data: {
+            labels: cities,
+            datasets: [{
+                label: "Humidity (%)",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: humidities
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Humidity Distribution Across Cities (%)'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // New Additional Charts
+    new Chart(document.getElementById("feels-like-canvas"), {
+        type: 'line',
+        data: {
+            labels: cities,
+            datasets: [{
+                label: "Actual Temperature (°C)",
+                borderColor: "#3e95cd",
+                fill: false,
+                data: temperatures
+            },
+            {
+                label: "Feels Like (°C)",
+                borderColor: "#c45850",
+                fill: false,
+                data: feelsLike
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Actual vs Feels Like Temperature'
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    new Chart(document.getElementById("heatindex-canvas"), {
+        type: 'bar',
+        data: {
+            labels: cities,
+            datasets: [{
+                label: "Heat Index (°C)",
+                backgroundColor: "#ff9f40",
+                data: heatIndex
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Heat Index (How hot it actually feels)'
+            },
+            legend: { display: false },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    new Chart(document.getElementById("uv-canvas"), {
+        type: 'bar',
+        data: {
+            labels: cities,
+            datasets: [{
+                label: "UV Index",
+                backgroundColor: "#ff6384",
+                data: uvIndex
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'UV Index (Sun Intensity)'
+            },
+            legend: { display: false },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 12,
+                    ticks: {
+                        callback: function (value) {
+                            if (value <= 2) return value + ' (Low)';
+                            if (value <= 5) return value + ' (Moderate)';
+                            if (value <= 7) return value + ' (High)';
+                            if (value <= 10) return value + ' (Very High)';
+                            return value + ' (Extreme)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<div style="height: 50px;"></div>

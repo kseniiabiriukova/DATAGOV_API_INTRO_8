@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Platino, serif;
+        }
+
+        body {
+            background-color: #f7f8fc;
+            color: #333;
+        }
+
+        .main {
+            place-items: center;
+        }
+
+        .about-us {
+            max-width: 950px;
+            text-align: center;
+        }
+
+        .about-us p {
+            line-height: 2.0;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-top: 60px;
+            margin-bottom: 20px;
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .team-member {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            font-size: 1.2em;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @@media (max-width: 768px) {
+        .team-container {
+             grid-template-columns: 1fr; 
+        }
+        }
+        @@media (max-width: 480px) {
+        .team-container {
+        grid-template-columns: 1fr; 
+        }
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <!-- Main Section -->
+    <section class="main">
+        <div class="about-us">
+            <h1>Meet Our Team Members</h1>
+            <p>We are graduate students from the University of South Florida working on a project that involves retrieving and analyzing weather information. Our goal is to showcase our ability to retrieve data via APIs and develop a functional, interactive website that presents this information effectively.</p>
+
+            <div class="team-container">
+                <div class="team-member">
+                    <img src="~/images/kseniia.png" alt="Kseniia Biriukova">
+                    <h3>Kseniia Biriukova</h3>
+                    <p>
+                        Pursuing my Master of Business Analytics degree at the University of South Florida. My professional interests include Machine Learning, Deep Learning, Statistics and Natural Language Processing.
+                    </p>
+                </div>
+
+                <div class="team-member">
+                    <img src="~/images/shreya.png" alt="Shreya Chakraborty">
+                    <h3>Shreya Chakraborty</h3>
+                    <p>Pursuing Masters degree in Business Analytics and Information Systems at the University of South Florida. I have experience in automation, having automated business processes at Accenture using RPA tools and Python. In addition to my technical skills, I enjoy reading literature classics and playing the guitar.</p>
+                </div>
+
+                <div class="team-member">
+                    <img src="~/images/akylai.jpeg" alt="Akylai Davletova">
+                    <h3>Akylai Davletova</h3>
+                    <p>Dedicated to making the user experience seamless and visually appealing.</p>
+                </div>
+
+                <div class="team-member">
+                    <img src="~/images/mayo.jpg" alt="Mayo Fukuda">
+                    <h3>Mayo Fukuda</h3>
+                    <p>I am a graduate Student in Business Analytics and Information Systems at the University of South Florida, specializing in database design and data visualization. With proficiency in tools like SQL, Hadoop, Spark, Power BI, Tableau, and Python, I am eager to leverage my skills to drive informed decision-making.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div style="height: 200px;"></div>
+</body>
+</html>
